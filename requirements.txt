@@ -1,0 +1,4 @@
+numpy<2
+pandas
+networkx
+tensorflow==2.15.0
