@@ -1,48 +1,31 @@
-# Energy-Aware Digital Twin Placement in Mobile Edge Computing
+# Mobility-Aware Digital Twin Placement in Mobile Edge Computing
 
-This repository contains selected implementation artifacts from Mahdi Hematyar's thesis work on mobility-aware Digital Twin placement in Mobile Edge Computing (MEC). It focuses on two connected components: LSTM-based mobility prediction and a graph-based device-to-edge-server placement heuristic.
+*Selected research code from my M.Sc. thesis in Computer Engineering*
 
-## Pipeline overview
+## Overview
 
-1. **Mobility prediction:** a pre-trained LSTM model uses five historical observations per device to predict its next two-dimensional position. The inference script produces predictions for time slots 10–14.
-2. **Graph-based placement:** the heuristic consumes those predictions, builds an undirected social graph, identifies connected components, and greedily maps devices to feasible edge servers under compute-capacity and latency constraints.
-3. **Evaluation:** separate scripts calculate total delay and energy from the placement matrix and the generated graph/transmission-power inputs.
+This repository presents selected Python implementations from my master's thesis research at **Iran University of Science and Technology (IUST)**. The research investigates mobility-aware, energy-conscious placement of digital twins (DTs) in **Mobile Edge Computing (MEC)** environments, where mobile devices, communication delays, and limited edge-server resources influence placement decisions.
 
-## Selected experiment
+The code shared here highlights two connected parts of the research: **LSTM-based mobility prediction** and a **graph-based placement heuristic**. It also includes selected scripts for evaluating delay and energy consumption.
 
-The extracted configuration contains 150 mobile devices, 10 edge servers, and five prediction/placement time slots (10–14). The compact mobility sample contains the historical observations needed by the LSTM inference script.
+## Selected Research Components
 
-## Repository structure
+**1. LSTM-Based Mobility Prediction**  
+A pre-trained LSTM model and its inference code estimate the future two-dimensional positions of mobile devices from sequences of historical observations. The selected implementation uses five observations per input sequence and produces predictions for five consecutive future time slots.
 
-- `lstm_mobility_prediction/`: pre-trained SavedModel, inference code, sample mobility data, and prediction output.
-- `graph_based_heuristic/`: placement heuristic, fixed base-station coordinates, and delay/energy evaluation scripts.
-- `run_pipeline.py`: runs the complete inference → placement → evaluation workflow.
+**2. Graph-Based Placement Heuristic**  
+A heuristic for assigning mobile devices' digital twins to edge servers. It constructs an undirected graph of device relationships, identifies connected components to organize the allocation process, and greedily selects a nearby feasible server for each device subject to computational-capacity and latency constraints. Devices in the same connected component are not necessarily placed on the same server.
 
-## Requirements
+**3. Delay and Energy Evaluation**  
+Selected scripts calculate delay- and energy-related metrics for the resulting placement decisions.
 
-- Python 3.10 or 3.11
-- Dependencies listed in `requirements.txt`
+## Scope of This Repository
 
-Install dependencies and run the pipeline from the repository root:
+The shared material is a **curated subset of the thesis implementation**, rather than the complete thesis source code or a full experimental reproduction package. It includes a representative configuration with **150 mobile devices, 10 edge servers, and five time slots**, together with sample mobility data and the saved LSTM model. The LSTM training script and the complete set of thesis experiments are not included.
 
-```bash
-python -m venv .venv
-# Windows PowerShell: .venv\Scripts\Activate.ps1
-# Linux/macOS: source .venv/bin/activate
-pip install -r requirements.txt
-python run_pipeline.py
-```
+## Related Publication
 
-The resulting metrics are written to `graph_based_heuristic/myTotalDelay.txt` and `graph_based_heuristic/myEnergy.txt`. Intermediate generated files are excluded from Git.
+Mahdi Hematyar and Zeinab Movahedi, **“Energy-Aware Dynamic Digital Twin Placement in Mobile Edge Computing,”** *2023 13th International Conference on Computer and Knowledge Engineering (ICCKE)*. [DOI: 10.1109/ICCKE60553.2023.10326254](https://doi.org/10.1109/ICCKE60553.2023.10326254)
 
-## Reproducibility notes
-
-The supplied archive includes the trained LSTM model and inference script, but not the model-training script. The original graph heuristic generates the social adjacency matrix and device transmission powers randomly; therefore, repeated runs may produce different placement and evaluation results. The cleanup preserves that stochastic behavior rather than imposing new seeds.
-
-The prediction output is generated by the LSTM stage and read directly by the placement and evaluation stages, avoiding duplicated prediction files.
-
-## Citation
-
-If you use this code, please cite the corresponding thesis and the related publication:
-
-- Hematyar, M., and Movahedi, Z., “Energy-Aware Dynamic Digital Twin Placement in Mobile Edge Computing,” ICCKE 2023.
+**Author:** Mahdi Hematyar  
+**Research area:** Digital Twins · Mobile Edge Computing · Mobility Prediction · Resource Allocation
